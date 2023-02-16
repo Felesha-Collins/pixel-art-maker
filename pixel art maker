@@ -1,0 +1,75 @@
+import pygame
+
+# Initialize Pygame
+pygame.init()
+
+# Set the dimensions of the screen
+WIDTH = 500
+HEIGHT = 500
+SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
+
+# Set the color palette for the pixel art
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
+
+# Set the size of the pixels and the number of rows and columns
+PIXEL_SIZE = 20
+ROWS = HEIGHT // PIXEL_SIZE
+COLS = WIDTH // PIXEL_SIZE
+
+# Initialize the pixel grid as a 2D list
+pixels = [[WHITE for j in range(COLS)] for i in range(ROWS)]
+
+# Define a function to draw the pixels on the screen
+def draw_pixels():
+    for i in range(ROWS):
+        for j in range(COLS):
+            pygame.draw.rect(SCREEN, pixels[i][j], (j * PIXEL_SIZE, i * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE))
+
+# Set up the main game loop
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            # When the mouse button is pressed, get the position of the mouse and calculate the corresponding row and column
+            x, y = pygame.mouse.get_pos()
+            row = y // PIXEL_SIZE
+            col = x // PIXEL_SIZE
+            # Set the color of the corresponding pixel based on the current color palette
+            if current_color == "black":
+                pixels[row][col] = BLACK
+            elif current_color == "white":
+                pixels[row][col] = WHITE
+            elif current_color == "red":
+                pixels[row][col] = RED
+            elif current_color == "green":
+                pixels[row][col] = GREEN
+            elif current_color == "blue":
+                pixels[row][col] = BLUE
+        elif event.type == pygame.KEYDOWN:
+            # When a key is pressed, change the current color based on the corresponding key
+            if event.key == pygame.K_b:
+                current_color = "black"
+            elif event.key == pygame.K_w:
+                current_color = "white"
+            elif event.key == pygame.K_r:
+                current_color = "red"
+            elif event.key == pygame.K_g:
+                current_color = "green"
+            elif event.key == pygame.K_b:
+                current_color = "blue"
+
+    # Fill the screen with white and draw the pixels
+    SCREEN.fill(WHITE)
+    draw_pixels()
+
+    # Update the screen
+    pygame.display.update()
+
+# Quit Pygame
+pygame.quit()
